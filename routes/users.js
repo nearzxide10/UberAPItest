@@ -142,6 +142,19 @@ router.post('/userProfile',function(req,res){
 		});
 });	
 
+//重新註冊token (時長一個月)
+router.post('/refreshlogin',function(req,res){
+	uber.authorizationAsync({ refresh_token: 'MA.CAESEKDH4-ISAkjxkkzQxu36NhEiATEoATIBMQ.yyKPw7BMJEWeslLj7uCjGA_xAI58AmyX5A-IWTJxVbY.2mxzJ_w78nZZN_2fjZiPab7ZJalw5yHCYNYpJGX4QGM' })
+	.then(function(access_token) {
+		console.log(access_token);
+		res.json(access_token);
+		})
+	.error(function(err) {
+		console.error(err);
+		});
+	
+});
+
 /*
 router.delete('/removetoken',function(req,res){
 	res.json("OK");
