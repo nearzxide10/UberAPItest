@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Uber = require('node-uber');
+var request = require('request');
 var uber = new Uber({
   client_id: 'PTERFXSNaLLgdB-anD2z4DcoYJ0CMH-G',
   client_secret: '-oP3N4Zk29BFcgKeMDseV8n4E5VAJOxxC5dzXl6q',
@@ -154,6 +155,46 @@ router.post('/refreshlogin',function(req,res){
 		});
 	
 });
+
+//computer vision 圖像分析API
+router.post('/vision',function(req,res){
+	var imgurl ={"url":req.body.url};
+ 	request({
+    headers: {
+     'Content-Type': 'application/json',
+     'Ocp-Apim-Subscription-Key':'71dc54db31384dd5878472ac9cf68112'
+    },
+    uri: 'https://eastasia.api.cognitive.microsoft.com/vision/v1.0/analyze?visualFeatures=Categories,Description,Color&language=en',
+    json: imgurl,
+    method: 'POST'
+  }, function (err, ret, body) {
+    //it works!
+    res.json(body);
+  });
+
+ });
+
+//未完成
+router.post('/Textvision',function(req,res){
+	var imgurl ={"url":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Cursive_Writing_on_Notebook_paper.jpg/800px-Cursive_Writing_on_Notebook_paper.jpg"};
+ 	request({
+    headers: {
+     'Content-Type': 'application/json',
+     'Ocp-Apim-Subscription-Key':'71dc54db31384dd5878472ac9cf68112'
+    },
+    timeout: 10000
+    ,
+    uri: 'https://eastasia.api.cognitive.microsoft.com/vision/v1.0/recognizeText?handwriting=true',
+    json: imgurl,
+    method: 'POST'
+  }, function (err, ret, body) {
+    //it works!
+    console.log(ret);
+    res.json(ret);
+  });
+
+ });
+
 
 /*
 router.delete('/removetoken',function(req,res){
